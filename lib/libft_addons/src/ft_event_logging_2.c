@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 08:21:58 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/11 17:48:30 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/19 19:33:42 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,28 +41,6 @@ void	execute_login_extensions(t_log_event *event, const char *fmt, ...)
 			}
 		}
 	}
-	return ;
-}
-
-void	ft_loging_event(int level, const char *file, int line,
-			const char *fmt, ...)
-{
-	t_log_event				event;
-
-	event.fmt = fmt;
-	event.file = file;
-	event.line = line;
-	event.level = level;
-	gettimeofday(&event.tv, NULL);
-	lock();
-	if (!g_loging_params->quiet && level >= g_loging_params->level)
-	{
-		va_start(event.ap, fmt);
-		stdout_callback(&event);
-		va_end(event.ap);
-	}
-	execute_login_extensions(&event, fmt);
-	unlock();
 	return ;
 }
 
