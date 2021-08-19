@@ -1,18 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   computor.c                                         :+:      :+:    :+:   */
+/*   ft_numlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/08/19 18:19:03 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/19 18:19:47 by jkauppi          ###   ########.fr       */
+/*   Created: 2019/12/28 15:21:05 by jkauppi           #+#    #+#             */
+/*   Updated: 2021/03/27 12:42:43 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "computor.h"
+#include "ft_printf.h"
 
-int	main(void)
+size_t	ft_numlen(unsigned long long nbr, size_t base)
 {
-	return (0);
+	size_t		c;
+
+	c = 1;
+	nbr /= base;
+	while (nbr)
+	{
+		c++;
+		nbr /= base;
+	}
+	return (c);
 }

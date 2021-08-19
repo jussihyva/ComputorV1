@@ -1,18 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   computor.c                                         :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/08/19 18:19:03 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/19 18:19:47 by jkauppi          ###   ########.fr       */
+/*   Created: 2019/10/21 16:54:23 by jkauppi           #+#    #+#             */
+/*   Updated: 2021/03/27 10:14:38 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "computor.h"
+#include "libft.h"
 
-int	main(void)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	return (0);
+	char		*joint_str;
+	int			s1_len;
+	int			s2_len;
+
+	s1_len = ft_strlen(s1);
+	s2_len = ft_strlen(s2);
+	joint_str = (char *)ft_memalloc(s1_len + s2_len + 1);
+	ft_memmove(joint_str, s1, s1_len);
+	ft_memmove(joint_str + s1_len, s2, s2_len + 1);
+	return (joint_str);
 }

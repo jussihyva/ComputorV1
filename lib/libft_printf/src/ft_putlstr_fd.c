@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   computor.c                                         :+:      :+:    :+:   */
+/*   ft_putlstr_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/08/19 18:19:03 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/19 18:19:47 by jkauppi          ###   ########.fr       */
+/*   Created: 2020/01/07 12:13:54 by jkauppi           #+#    #+#             */
+/*   Updated: 2021/03/27 12:25:30 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "computor.h"
+#include "ft_printf.h"
 
-int	main(void)
+void	ft_putlstr_fd(char *s, size_t string_len, int fd)
 {
-	return (0);
+	write(fd, s, string_len);
 }

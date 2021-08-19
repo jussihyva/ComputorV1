@@ -1,18 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   computor.c                                         :+:      :+:    :+:   */
+/*   ft_putendl.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: jkauppi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/08/19 18:19:03 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/19 18:19:47 by jkauppi          ###   ########.fr       */
+/*   Created: 2019/10/22 11:45:34 by jkauppi           #+#    #+#             */
+/*   Updated: 2019/11/20 18:03:13 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "computor.h"
+#include "libft.h"
 
-int	main(void)
+void	ft_putendl(char const *s)
 {
-	return (0);
+	ft_putstr(s);
+	ft_putchar('\n');
+	return ;
 }

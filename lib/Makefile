@@ -6,12 +6,15 @@
 #    By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/06/20 10:35:04 by ubuntu            #+#    #+#              #
-#    Updated: 2021/08/19 16:30:36 by jkauppi          ###   ########.fr        #
+#    Updated: 2021/08/19 19:05:16 by jkauppi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-A_FILES				=	libft/libft.a libft_printf/libftprintf.a
-H_FILES				=	libft/libft.h libft_printf/include/ft_printf.h
+A_FILES				=	libft/libft.a libft_printf/libftprintf.a \
+						libft_addons/libft_addons.a
+H_FILES				=	libft/libft.h libft_printf/include/ft_printf.h \
+						libft_addons/include/libft_addons.h \
+						libft_addons/include/libft_addons_against_norm.h
 LIB_FOLDERS			=	$(dir $(A_FILES))
 
 .PHONY: all

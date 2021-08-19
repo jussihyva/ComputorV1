@@ -1,18 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   computor.c                                         :+:      :+:    :+:   */
+/*   ft_max_int.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/08/19 18:19:03 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/19 18:19:47 by jkauppi          ###   ########.fr       */
+/*   Created: 2021/02/07 08:15:12 by juhani            #+#    #+#             */
+/*   Updated: 2021/03/27 11:00:07 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "computor.h"
+#include "libft_addons.h"
 
-int	main(void)
+int	ft_max_int(int nbr1, int nbr2)
 {
-	return (0);
+	int		max;
+
+	if (nbr1 > nbr2)
+		max = nbr1;
+	else
+		max = nbr2;
+	return (max);
 }

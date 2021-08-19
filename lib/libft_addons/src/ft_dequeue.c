@@ -1,18 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   computor.c                                         :+:      :+:    :+:   */
+/*   ft_dequeue.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/08/19 18:19:03 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/19 18:19:47 by jkauppi          ###   ########.fr       */
+/*   Created: 2021/04/12 08:53:18 by jkauppi           #+#    #+#             */
+/*   Updated: 2021/05/11 15:12:02 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "computor.h"
+#include "libft_addons.h"
 
-int	main(void)
+void	*ft_dequeue(t_queue *queue)
 {
-	return (0);
+	void	*data;
+
+	data = NULL;
+	if (!*queue->out_stack)
+	{
+		while (*queue->in_stack)
+		{
+			data = ft_stack_pop(queue->in_stack);
+			ft_stack_push(queue->out_stack, data);
+		}
+	}
+	data = ft_stack_pop(queue->out_stack);
+	return (data);
 }

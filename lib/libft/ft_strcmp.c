@@ -1,18 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   computor.c                                         :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/08/19 18:19:03 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/19 18:19:47 by jkauppi          ###   ########.fr       */
+/*   Created: 2019/10/19 14:14:24 by jkauppi           #+#    #+#             */
+/*   Updated: 2021/03/27 10:25:18 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "computor.h"
+#include "libft.h"
 
-int	main(void)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	return (0);
+	while (*s1 == *s2)
+	{
+		if (!(*s1))
+			return (0);
+		s1++;
+		s2++;
+	}
+	return ((int)(*(unsigned char *)s1 - *(unsigned char *)s2));
 }

@@ -1,18 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   computor.c                                         :+:      :+:    :+:   */
+/*   ft_lstadd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/08/19 18:19:03 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/19 18:19:47 by jkauppi          ###   ########.fr       */
+/*   Created: 2019/10/22 18:58:16 by jkauppi           #+#    #+#             */
+/*   Updated: 2020/03/07 13:33:54 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "computor.h"
+#include "libft.h"
 
-int	main(void)
+void	ft_lstadd(t_list **alst, t_list *new)
 {
-	return (0);
+	if (*alst)
+	{
+		new->next = *alst;
+		new->prev = (*alst)->prev;
+		(*alst)->prev = new;
+		*alst = new;
+	}
+	else
+	{
+		*alst = new;
+		(*alst)->next = NULL;
+		(*alst)->prev = NULL;
+	}
+	return ;
 }

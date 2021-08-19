@@ -1,18 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   computor.c                                         :+:      :+:    :+:   */
+/*   ft_strarraydel.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/08/19 18:19:03 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/19 18:19:47 by jkauppi          ###   ########.fr       */
+/*   Created: 2021/08/12 13:47:00 by jkauppi           #+#    #+#             */
+/*   Updated: 2021/08/12 13:47:24 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "computor.h"
+#include "libft_addons.h"
 
-int	main(void)
+void	ft_strarraydel(char ***array)
 {
-	return (0);
+	char	*ptr;
+	size_t	i;
+
+	i = 0;
+	while ((*array)[i])
+	{
+		ptr = (*array)[i];
+		ft_strdel(&ptr);
+		i++;
+	}
+	ft_memdel((void **)array);
+	return ;
 }

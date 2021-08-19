@@ -1,18 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   computor.c                                         :+:      :+:    :+:   */
+/*   ft_memalloc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/08/19 18:19:03 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/19 18:19:47 by jkauppi          ###   ########.fr       */
+/*   Created: 2019/10/21 08:45:35 by jkauppi           #+#    #+#             */
+/*   Updated: 2021/03/27 10:10:24 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "computor.h"
+#include <stdlib.h>
+#include "libft.h"
 
-int	main(void)
+void	*ft_memalloc(size_t size)
 {
-	return (0);
+	void	*mem_area;
+
+	mem_area = malloc(size);
+	if (!mem_area)
+	{
+		ft_putstr("MAJOR ERROR: Memory allocation failed.\n");
+		exit(42);
+	}
+	ft_bzero(mem_area, size);
+	return (mem_area);
 }

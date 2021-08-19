@@ -1,18 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   computor.c                                         :+:      :+:    :+:   */
+/*   ft_is_queue_empty.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/08/19 18:19:03 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/19 18:19:47 by jkauppi          ###   ########.fr       */
+/*   Created: 2021/04/12 11:15:00 by jkauppi           #+#    #+#             */
+/*   Updated: 2021/04/12 11:18:41 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "computor.h"
+#include "libft_addons.h"
 
-int	main(void)
+int	ft_is_queue_empty(t_queue *queue)
 {
-	return (0);
+	int		is_queue_empty;
+
+	is_queue_empty = 0;
+	if (!*queue->in_stack && !*queue->out_stack)
+		is_queue_empty = 1;
+	return (is_queue_empty);
 }
