@@ -6,7 +6,7 @@
 #    By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/09 10:45:12 by jkauppi           #+#    #+#              #
-#    Updated: 2021/08/19 19:07:04 by jkauppi          ###   ########.fr        #
+#    Updated: 2021/08/20 11:25:57 by jkauppi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,7 +47,7 @@ APP_C_FILES		=	$(addprefix $(SRC)/, $(patsubst %, %.c, $(NAMES)))
 
 # Compiler and linking parameters
 CC				=	clang
-C_FLAGS			=	-g -Wall -Wextra -Werror $(INCLUDES)
+C_FLAGS			=	-g -Wall -Wextra -Werror $(INCLUDES) $(SYSTEM_INCLUDE)
 LD_FLAGS		=	-std=gnu17 -L$(LIB) $(LIB_FILES)
 
 ifeq ($(OS), Darwin)
@@ -132,8 +132,8 @@ re: fclean all
 .PHONY: norm
 norm: libraries_norm
 ifeq ($(OS), Darwin)
-	norminette-beta $(SRC)/* $(INCLUDE)/*
+	norminette-beta
 else
-	norminette $(SRC)/* $(INCLUDE)/*
+	norminette
 endif
 
