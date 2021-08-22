@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/20 10:51:23 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/22 15:18:04 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/22 21:40:25 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,6 @@
 
 # define VALID_CHARACTERS		"0123456789 X^.=+-"
 # define POLYNOMIAL_MAX_DEGREE	2
-
-typedef enum e_plus_minus_sign
-{
-	E_PLUS,
-	E_MINUS
-}				t_plus_minus_sign;
 
 typedef enum e_side_of_equation
 {
@@ -41,7 +35,6 @@ typedef struct s_input_params
 
 typedef struct s_term
 {
-	t_plus_minus_sign	sign;
 	double				coefficient;
 	size_t				degree;
 }				t_term;
@@ -58,6 +51,6 @@ void	cmd_arg_save(void *input_params, char opt, t_argc_argv *argc_argv,
 void	usage_print(void);
 t_bool	polynomial_split_to_terms(const char *polynomial);
 void	term_parse(const char *const start_ptr, const char *const end_ptr,
-			t_side_of_equation side_of_equation, t_term *term, t_plus_minus_sign plus_minus_sign);
+			t_term *term);
 
 #endif

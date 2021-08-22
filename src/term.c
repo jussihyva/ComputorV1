@@ -6,23 +6,24 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/22 09:21:08 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/22 15:40:46 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/22 21:37:28 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "computor.h"
 
 static double	get_coefficient(const char **ptr,
-									t_side_of_equation side_of_equation,
-									t_plus_minus_sign plus_minus_sign)
+											t_side_of_equation side_of_equation)
 {
 	double		coefficient;
 	char		*endptr;
+	const char	*start_ptr;
 
+	start_ptr = *ptr;
+	if (**ptr == '+' || **ptr == '-' || **ptr == '=')
+		(*ptr)++;
 	coefficient = strtod(*ptr, &endptr);
-	if (side_of_equation == E_RIGHT)
-		coefficient *= -1;
-	if (plus_minus_sign == E_MINUS)
+	if (side_of_equation == E_RIGHT ^ *start_ptr == '-')
 		coefficient *= -1;
 	while (*endptr == ' ')
 		endptr++;
@@ -47,14 +48,17 @@ static size_t	get_degree(const char **ptr, const char *const end_ptr)
 }
 
 void	term_parse(const char *const start_ptr, const char *const end_ptr,
-							t_side_of_equation side_of_equation, t_term *term, t_plus_minus_sign plus_minus_sign)
+																t_term *term)
 {
-	double		coefficient;
-	size_t		degree;
-	const char	*ptr;
+	static t_side_of_equation	side_of_equation = E_LEFT;
+	double						coefficient;
+	size_t						degree;
+	const char					*ptr;
 
 	ptr = (char *)start_ptr;
-	coefficient = get_coefficient(&ptr, side_of_equation, plus_minus_sign);
+	if (side_of_equation == E_LEFT && *ptr == '=')
+		side_of_equation = E_RIGHT;
+	coefficient = get_coefficient(&ptr, side_of_equation);
 	while (*ptr == ' ')
 		ptr++;
 	if (!ft_strnequ(ptr, "X^", 2))
@@ -66,6 +70,6 @@ void	term_parse(const char *const start_ptr, const char *const end_ptr,
 			POLYNOMIAL_MAX_DEGREE);
 	term[degree].coefficient += coefficient;
 	term[degree].degree = degree;
-	FT_LOG_INFO("TERM: %s(%s) %f %u", start_ptr, ptr, coefficient, degree);
+	FT_LOG_INFO("%-70s%-50s %10.2f %10u", start_ptr, ptr, coefficient, degree);
 	return ;
 }
