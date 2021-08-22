@@ -6,13 +6,13 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 18:19:03 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/20 17:58:05 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/22 22:08:58 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "computor.h"
 
-t_arg_parser	*arg_parser_init(const int *argc, const char ***argv)
+static t_arg_parser	*arg_parser_init(const int *argc, const char ***argv)
 {
 	t_arg_parser	*arg_parser;
 
@@ -24,6 +24,32 @@ t_arg_parser	*arg_parser_init(const int *argc, const char ***argv)
 	arg_parser->fn_usage = usage_print;
 	arg_parser->options = ft_strdup("L:hl");
 	return (arg_parser);
+}
+
+static void	arg_parser_remove(t_arg_parser **arg_parser)
+{
+	t_input_params			*input_params;
+
+	input_params = (t_input_params *)(*arg_parser)->input_params;
+	ft_memdel((void **)&input_params);
+	ft_strdel(&(*arg_parser)->options);
+	ft_memdel((void **)arg_parser);
+	return ;
+}
+
+static void	main_remove(t_arg_parser **arg_parser,
+									t_event_logging_data **event_logging_data)
+{
+	t_input_params	*input_params;
+	t_bool			print_leaks;
+
+	input_params = (t_input_params *)(*arg_parser)->input_params;
+	print_leaks = input_params->print_leaks;
+	arg_parser_remove(arg_parser);
+	ft_event_logging_release(event_logging_data);
+	if (print_leaks)
+		ft_print_leaks("computor");
+	return ;
 }
 
 int	main(const int argc, const char **argv)
@@ -41,7 +67,6 @@ int	main(const int argc, const char **argv)
 		polynomial_split_to_terms(input_params->polynomial);
 	else
 		usage_print();
-	if (input_params->print_leaks)
-		ft_print_leaks("computor");
+	main_remove(&arg_parser, &event_logging_data);
 	return (0);
 }

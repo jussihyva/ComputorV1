@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/20 17:08:56 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/22 21:20:39 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/22 21:49:44 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ t_bool	polynomial_split_to_terms(const char *polynomial)
 
 	term = set_and_get_terms_start_pos(polynomial);
 	print_terms(term);
+	ft_memdel((void **)&term);
 	is_valid = E_TRUE;
 	return (is_valid);
 }
