@@ -6,7 +6,7 @@
 #    By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/09 10:45:12 by jkauppi           #+#    #+#              #
-#    Updated: 2021/08/20 11:25:57 by jkauppi          ###   ########.fr        #
+#    Updated: 2021/08/22 07:37:07 by jkauppi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -102,18 +102,18 @@ libraries_norm:
 .PHONY: run
 run: all
 ifeq ($(OS), Darwin)
-	$(CUR_DIR)/$(BIN)/$(NAME) $(POLYNOMIAL)
+	$(CUR_DIR)/$(BIN)/$(NAME) $(LEVEL) $(POLYNOMIAL)
 else
-	$(CUR_DIR)/$(BIN)/$(NAME) $(POLYNOMIAL)
+	$(CUR_DIR)/$(BIN)/$(NAME) $(LEVEL) $(POLYNOMIAL)
 endif
 
 .PHONY: run_leaks
 run_leaks: all
 ifeq ($(OS), Darwin)
-	$(CUR_DIR)/$(BIN)/$(NAME) -l $(POLYNOMIAL)
+	$(CUR_DIR)/$(BIN)/$(NAME) $(LEVEL) -l $(POLYNOMIAL)
 else
 	valgrind -s --tool=memcheck --leak-check=full --show-leak-kinds=all \
-	$(CUR_DIR)/$(BIN)/$(NAME) $(POLYNOMIAL)
+	$(CUR_DIR)/$(BIN)/$(NAME) $(LEVEL) $(POLYNOMIAL)
 endif
 
 .PHONY: clean
