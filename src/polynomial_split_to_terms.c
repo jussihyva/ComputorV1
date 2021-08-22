@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/20 17:08:56 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/22 09:28:39 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/22 12:13:50 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,11 @@ static const char	*get_start_pos_of_next_term(const char *const ptr)
 	const char		*next_ptr;
 	const char		*ptr_plus;
 	const char		*ptr_minus;
+	const char		*equal_to_ptr;
 
 	ptr_minus = ft_strchr(ptr, '-');
 	ptr_plus = ft_strchr(ptr, '+');
+	equal_to_ptr = ft_strchr(ptr, '=');
 	if (ptr_plus && ptr_minus)
 	{
 		if (ptr_plus < ptr_minus)
@@ -55,28 +57,37 @@ static const char	*get_start_pos_of_next_term(const char *const ptr)
 		next_ptr = ptr_minus;
 	else
 		next_ptr = NULL;
+	if (!next_ptr && equal_to_ptr)
+		next_ptr = equal_to_ptr;
+	else if (equal_to_ptr && equal_to_ptr < next_ptr)
+		next_ptr = equal_to_ptr;
 	return (next_ptr);
 }
 
-static t_term	*set_and_get_terms_start_pos(char *polynomial)
+static t_term	*set_and_get_terms_start_pos(const char *polynomial,
+													const char *const equal_to_ptr)
 {
-	char		*ptr;
-	const char	*next_ptr;
-	t_term		*term;
+	const char			*ptr;
+	const char			*next_ptr;
+	const char			*end_ptr;
+	t_term				*term;
+	t_side_of_equation	side_of_equation;
 
 	term = ft_memalloc(sizeof(*term) * 3);
 	ptr = polynomial;
 	while (ptr)
 	{
 		next_ptr = get_start_pos_of_next_term(ptr);
+		side_of_equation = E_LEFT;
+		if (ptr > equal_to_ptr)
+			side_of_equation = E_RIGHT;
+		end_ptr = NULL;
 		if (next_ptr)
-		{
-			term_parse(ptr);
-			ptr = (char *)next_ptr;
-			*ptr++ = '\0';
-		}
-		else
-			ptr = (char *)next_ptr;
+			end_ptr = next_ptr - 1;
+		term_parse(ptr, end_ptr, side_of_equation);
+		ptr = (char *)next_ptr;
+		if (ptr)
+			ptr++;
 	}
 	return (term);
 }
@@ -85,16 +96,13 @@ t_bool	polynomial_split_to_terms(const char *polynomial)
 {
 	t_bool					is_valid;
 	t_splitted_polynomial	splitted_polynomial;
-	char					*equal_to_ptr;
-	t_term					*term_left;
-	t_term					*term_right;
+	const char				*equal_to_ptr;
+	t_term					*term;
 
 	splitted_polynomial.left_side = ft_strtrim(polynomial);
-	equal_to_ptr = check_equal_to_sign(splitted_polynomial.left_side);
-	*equal_to_ptr = '\0';
+	equal_to_ptr = check_equal_to_sign(polynomial);
 	splitted_polynomial.right_side = ft_strtrim(equal_to_ptr + 1);
-	term_left = set_and_get_terms_start_pos(splitted_polynomial.left_side);
-	term_right = set_and_get_terms_start_pos(splitted_polynomial.right_side);
+	term = set_and_get_terms_start_pos(polynomial, equal_to_ptr);
 	print_logging_info(&splitted_polynomial);
 	ft_strdel(&splitted_polynomial.left_side);
 	is_valid = E_TRUE;
