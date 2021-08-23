@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 18:19:03 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/23 10:33:11 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/23 23:02:58 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,31 @@ static void	arg_parser_remove(t_arg_parser **arg_parser)
 	return ;
 }
 
-static void	main_remove(t_arg_parser **arg_parser,
-									t_event_logging_data **event_logging_data)
+static void	main_remove(t_arg_parser **arg_parser, t_polynomial **polynomial,
+					t_event_logging_data **event_logging_data)
 {
 	t_input_params	*input_params;
 	t_bool			print_leaks;
 
+	ft_memdel((void **)&(*polynomial)->term_array);
+	ft_memdel((void **)polynomial);
 	input_params = (t_input_params *)(*arg_parser)->input_params;
+	ft_strdel((char **)&input_params->polynomial_string);
 	print_leaks = input_params->print_leaks;
 	arg_parser_remove(arg_parser);
 	ft_event_logging_release(event_logging_data);
 	if (print_leaks)
 		ft_print_leaks("computor");
 	return ;
+}
+
+static const char	*get_polynomial_string_from_stdin(void)
+{
+	char	*polynomial_string;
+
+	polynomial_string = NULL;
+	ft_get_next_line(0, &polynomial_string);
+	return (polynomial_string);
 }
 
 int	main(const int argc, const char **argv)
@@ -64,15 +76,10 @@ int	main(const int argc, const char **argv)
 	input_params = (t_input_params *)arg_parser->input_params;
 	event_logging_data = ft_event_logging_init(
 			input_params->event_logging_level);
-	if (input_params->polynomial_string)
-	{
-		polynomial = polynomial_split_to_terms(input_params->polynomial_string);
-		polynomial_solve(polynomial);
-		ft_memdel((void **)&polynomial->term_array);
-		ft_memdel((void **)&polynomial);
-	}
-	else
-		usage_print();
-	main_remove(&arg_parser, &event_logging_data);
+	if (!input_params->polynomial_string)
+		input_params->polynomial_string = get_polynomial_string_from_stdin();
+	polynomial = polynomial_split_to_terms(input_params->polynomial_string);
+	polynomial_solve(polynomial);
+	main_remove(&arg_parser, &polynomial, &event_logging_data);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/20 11:28:48 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/23 10:05:53 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/23 22:29:15 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	cmd_arg_save_mandatory(void *input_params, char opt,
 	arg = (*argc_argv->argv)[argc_argv->i];
 	params = (t_input_params *)input_params;
 	if (((*argc_argv->argc) - argc_argv->i) == 1)
-		params->polynomial_string = arg;
+		params->polynomial_string = ft_strdup(arg);
 	else
 		usage_print();
 	return ;

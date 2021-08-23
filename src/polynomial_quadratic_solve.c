@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 18:06:23 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/23 21:07:48 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/23 23:05:42 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static void	solve_negative_discriminant(const double a, const double b,
 	double		real;
 	size_t		i;
 
+	ft_printf("Quadratic polynomial (negative discriminant).\n");
 	imaginary = sqrt(fabs((-c / a) * 4 + pow(b / a, 2))) / 2;
 	real = -b / a / 2;
 	i = 0;
@@ -32,11 +33,8 @@ static void	solve_negative_discriminant(const double a, const double b,
 			else
 				ft_printf("- ");
 		}
-		else
-		{
-			if (i == 2)
-				ft_printf("-");
-		}
+		else if (i == 2)
+			ft_printf("-");
 		ft_printf("%0.2fi\n", imaginary);
 	}
 	return ;
@@ -48,10 +46,11 @@ static void	solve_positive_discriminant(const double a, const double b,
 	double		result1;
 	double		result2;
 
+	ft_printf("Quadratic polynomial (positive discriminant).\n");
 	result1 = (-b - sqrt(discriminant)) / (2 * a);
 	result2 = (-b + sqrt(discriminant)) / (2 * a);
-	ft_printf("Result1: %+0.2f\n", result1);
-	ft_printf("Result2: %+0.2f\n", result2);
+	ft_printf("%+0.2f\n", result1);
+	ft_printf("%+0.2f\n", result2);
 	return ;
 }
 
@@ -60,8 +59,9 @@ static void	solve_zero_discriminant(const double a, const double b,
 {
 	double		result1;
 
+	ft_printf("Quadratic polynomial (zero discriminant).\n");
 	result1 = (-b - sqrt(discriminant)) / (2 * a);
-	ft_printf("Result1: %+0.2f\n", result1);
+	ft_printf("%+0.2f\n", result1);
 	return ;
 }
 

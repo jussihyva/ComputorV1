@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/22 09:21:08 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/23 18:15:06 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/23 22:57:05 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	term_parse(const char *const start_ptr, const char *const end_ptr,
 	ptr += 2;
 	degree = get_degree(&ptr, end_ptr);
 	if (degree > POLYNOMIAL_MAX_DEGREE)
-		FT_LOG_ERROR("Biggest allowed polynomial degree is %d",
+		FT_LOG_ERROR("Highest supported polynomial degree is %d",
 			POLYNOMIAL_MAX_DEGREE);
 	term_array[degree].coefficient += coefficient;
 	term_array[degree].degree = degree;
