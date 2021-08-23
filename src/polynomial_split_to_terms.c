@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/20 17:08:56 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/23 09:53:02 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/23 10:43:08 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static const char	*get_start_pos_of_next_term(const char *const ptr)
 	return (next_ptr);
 }
 
-static void	print_plus_minus_sign(const double coefficient, const size_t i)
+static void	print_plus_minus_sign(const double coefficient)
 {
 	static t_bool	is_first = E_TRUE;
 
@@ -66,7 +66,7 @@ static void	print_plus_minus_sign(const double coefficient, const size_t i)
 		ft_printf(" ");
 	if (coefficient < 0)
 		ft_printf("-");
-	else if (coefficient >= 0 && i)
+	else if (coefficient >= 0 && is_first == E_FALSE)
 		ft_printf("+");
 	if (is_first == E_FALSE)
 		ft_printf(" ");
@@ -87,9 +87,9 @@ static void	print_reduced_form(t_term *term_array)
 	while (++i <= POLYNOMIAL_MAX_DEGREE)
 	{
 		term = &term_array[i];
-		if (fabs(term->coefficient) > 0.001)
+		if (fabs(term->coefficient) > COEFFICIENT_ACCURACY)
 		{
-			print_plus_minus_sign(term->coefficient, i);
+			print_plus_minus_sign(term->coefficient);
 			ft_printf("%0.1f * X^%d", term->degree, fabs(term->coefficient),
 				term->degree);
 			print_cnt++;
@@ -101,27 +101,25 @@ static void	print_reduced_form(t_term *term_array)
 	return ;
 }
 
-t_bool	polynomial_split_to_terms(const char *const polynomial)
+t_polynomial	*polynomial_split_to_terms(const char *const polynomial_string)
 {
-	t_bool				is_valid;
-	t_term				*term_array;
+	t_polynomial		*polynomial;
 	const char			*ptr;
 	const char			*next_ptr;
 	const char			*end_ptr;
 
-	term_array = ft_memalloc(sizeof(*term_array) * 3);
-	ptr = polynomial;
+	polynomial = ft_memalloc(sizeof(*polynomial));
+	polynomial->term_array = ft_memalloc(sizeof(*polynomial->term_array) * 3);
+	ptr = polynomial_string;
 	while (ptr)
 	{
 		next_ptr = get_start_pos_of_next_term(ptr);
 		end_ptr = NULL;
 		if (next_ptr)
 			end_ptr = next_ptr - 1;
-		term_parse(ptr, end_ptr, term_array);
+		term_parse(ptr, end_ptr, polynomial->term_array);
 		ptr = (char *)next_ptr;
 	}
-	print_reduced_form(term_array);
-	ft_memdel((void **)&term_array);
-	is_valid = E_TRUE;
-	return (is_valid);
+	print_reduced_form(polynomial->term_array);
+	return (polynomial);
 }

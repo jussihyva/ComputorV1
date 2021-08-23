@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 18:19:03 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/22 22:08:58 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/23 10:33:11 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,20 @@ int	main(const int argc, const char **argv)
 	t_arg_parser			*arg_parser;
 	t_input_params			*input_params;
 	t_event_logging_data	*event_logging_data;
+	t_polynomial			*polynomial;
 
 	arg_parser = arg_parser_init(&argc, &argv);
 	ft_arg_parser(arg_parser);
 	input_params = (t_input_params *)arg_parser->input_params;
 	event_logging_data = ft_event_logging_init(
 			input_params->event_logging_level);
-	if (input_params->polynomial)
-		polynomial_split_to_terms(input_params->polynomial);
+	if (input_params->polynomial_string)
+	{
+		polynomial = polynomial_split_to_terms(input_params->polynomial_string);
+		polynomial_solve(polynomial);
+		ft_memdel((void **)&polynomial->term_array);
+		ft_memdel((void **)&polynomial);
+	}
 	else
 		usage_print();
 	main_remove(&arg_parser, &event_logging_data);
