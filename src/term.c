@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/22 09:21:08 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/22 21:37:28 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/23 09:45:02 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static size_t	get_degree(const char **ptr, const char *const end_ptr)
 }
 
 void	term_parse(const char *const start_ptr, const char *const end_ptr,
-																t_term *term)
+															t_term *term_array)
 {
 	static t_side_of_equation	side_of_equation = E_LEFT;
 	double						coefficient;
@@ -68,8 +68,8 @@ void	term_parse(const char *const start_ptr, const char *const end_ptr,
 	if (degree > POLYNOMIAL_MAX_DEGREE)
 		FT_LOG_ERROR("Biggest allowed polynomial degree is %d",
 			POLYNOMIAL_MAX_DEGREE);
-	term[degree].coefficient += coefficient;
-	term[degree].degree = degree;
+	term_array[degree].coefficient += coefficient;
+	term_array[degree].degree = degree;
 	FT_LOG_INFO("%-70s%-50s %10.2f %10u", start_ptr, ptr, coefficient, degree);
 	return ;
 }

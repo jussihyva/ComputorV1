@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/20 17:08:56 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/22 21:49:44 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/23 09:53:02 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,58 @@ static const char	*get_start_pos_of_next_term(const char *const ptr)
 	return (next_ptr);
 }
 
-static t_term	*set_and_get_terms_start_pos(const char *polynomial)
+static void	print_plus_minus_sign(const double coefficient, const size_t i)
 {
+	static t_bool	is_first = E_TRUE;
+
+	if (is_first == E_FALSE)
+		ft_printf(" ");
+	if (coefficient < 0)
+		ft_printf("-");
+	else if (coefficient >= 0 && i)
+		ft_printf("+");
+	if (is_first == E_FALSE)
+		ft_printf(" ");
+	if (is_first == E_TRUE)
+		is_first = E_FALSE;
+	return ;
+}
+
+static void	print_reduced_form(t_term *term_array)
+{
+	size_t		i;
+	t_term		*term;
+	size_t		print_cnt;
+
+	print_cnt = 0;
+	i = -1;
+	ft_printf("Reduced form: ");
+	while (++i <= POLYNOMIAL_MAX_DEGREE)
+	{
+		term = &term_array[i];
+		if (fabs(term->coefficient) > 0.001)
+		{
+			print_plus_minus_sign(term->coefficient, i);
+			ft_printf("%0.1f * X^%d", term->degree, fabs(term->coefficient),
+				term->degree);
+			print_cnt++;
+		}
+	}
+	if (!print_cnt)
+		ft_printf("0");
+	ft_printf(" = 0\n");
+	return ;
+}
+
+t_bool	polynomial_split_to_terms(const char *const polynomial)
+{
+	t_bool				is_valid;
+	t_term				*term_array;
 	const char			*ptr;
 	const char			*next_ptr;
 	const char			*end_ptr;
-	t_term				*term;
 
-	term = ft_memalloc(sizeof(*term) * 3);
+	term_array = ft_memalloc(sizeof(*term_array) * 3);
 	ptr = polynomial;
 	while (ptr)
 	{
@@ -73,45 +117,11 @@ static t_term	*set_and_get_terms_start_pos(const char *polynomial)
 		end_ptr = NULL;
 		if (next_ptr)
 			end_ptr = next_ptr - 1;
-		term_parse(ptr, end_ptr, term);
+		term_parse(ptr, end_ptr, term_array);
 		ptr = (char *)next_ptr;
 	}
-	return (term);
-}
-
-static void	print_terms(t_term *term)
-{
-	size_t	i;
-
-	i = -1;
-	while (++i <= POLYNOMIAL_MAX_DEGREE)
-	{
-		if (i)
-			ft_printf("%0.1f * X^%d", term[i].degree, fabs(term[i].coefficient),
-				term[i].degree);
-		else
-			ft_printf("%0.1f * X^%d", term[i].degree, term[i].coefficient,
-				term[i].degree);
-		if (i != POLYNOMIAL_MAX_DEGREE)
-		{
-			if (term[i + 1].coefficient < 0)
-				ft_printf(" - ");
-			else
-				ft_printf(" + ");
-		}
-	}
-	ft_printf(" = 0\n");
-	return ;
-}
-
-t_bool	polynomial_split_to_terms(const char *polynomial)
-{
-	t_bool					is_valid;
-	t_term					*term;
-
-	term = set_and_get_terms_start_pos(polynomial);
-	print_terms(term);
-	ft_memdel((void **)&term);
+	print_reduced_form(term_array);
+	ft_memdel((void **)&term_array);
 	is_valid = E_TRUE;
 	return (is_valid);
 }
