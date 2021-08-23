@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 10:18:32 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/23 18:08:26 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/23 20:57:17 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,21 +55,6 @@ static void	print_reduced_form(t_term *term_array)
 	return ;
 }
 
-static void	solve_zero_two(const double a, const double c)
-{
-	double		result1;
-
-	if ((c / a) < 0)
-		ft_printf("No solution!\n");
-	else
-	{
-		result1 = sqrt(c / a);
-		ft_printf("Result1: %f\n", result1);
-		ft_printf("Result1: -%f\n", result1);
-	}
-	return ;
-}
-
 void	polynomial_solve(t_polynomial *polynomial)
 {
 	double		c;
@@ -80,11 +65,10 @@ void	polynomial_solve(t_polynomial *polynomial)
 	a = polynomial->term_array[2].coefficient;
 	b = polynomial->term_array[1].coefficient;
 	c = polynomial->term_array[0].coefficient;
-	if (polynomial->valid_terms == 5)
-		solve_zero_two(-a, c);
-	else if (!polynomial->valid_terms)
+	if (!polynomial->valid_terms)
 		ft_printf("All real numbers are valid solutions!\n");
-	else if (polynomial->valid_terms == 7)
+	else if (polynomial->valid_terms == 7
+			|| polynomial->valid_terms == 5)
 		polynomial_quadratic_solve(a, b, c);
 	else if (polynomial->valid_terms == 3)
 		polynomial_linear_solve(b, c);

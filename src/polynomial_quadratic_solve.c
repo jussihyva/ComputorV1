@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 18:06:23 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/23 20:21:13 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/23 21:07:48 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,28 @@ static void	solve_negative_discriminant(const double a, const double b,
 {
 	double		imaginary;
 	double		real;
+	size_t		i;
 
 	imaginary = sqrt(fabs((-c / a) * 4 + pow(b / a, 2))) / 2;
 	real = -b / a / 2;
-	ft_printf("%+0.2f + %0.2fi\n", real, imaginary);
-	ft_printf("%+0.2f - %0.2fi\n", real, imaginary);
+	i = 0;
+	while (++i <= 2)
+	{
+		if (fabs(real) > COEFFICIENT_ACCURACY)
+		{
+			ft_printf("%+0.2f ", real);
+			if (i == 1)
+				ft_printf("+ ");
+			else
+				ft_printf("- ");
+		}
+		else
+		{
+			if (i == 2)
+				ft_printf("-");
+		}
+		ft_printf("%0.2fi\n", imaginary);
+	}
 	return ;
 }
 
