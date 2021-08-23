@@ -6,32 +6,64 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 10:18:32 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/23 12:10:31 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/23 18:08:26 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "computor.h"
 
-static size_t	set_valid_flags(t_polynomial *polynomial)
+static void	print_plus_minus_sign(const double coefficient)
 {
-	size_t		valid_flags;
+	static t_bool	is_first = E_TRUE;
 
-	valid_flags = 0;
-	valid_flags |= polynomial->term_array[0].is_valid << 0;
-	valid_flags |= polynomial->term_array[1].is_valid << 1;
-	valid_flags |= polynomial->term_array[2].is_valid << 2;
-	return (valid_flags);
+	if (is_first == E_FALSE)
+		ft_printf(" ");
+	if (coefficient < 0)
+		ft_printf("-");
+	else if (coefficient >= 0 && is_first == E_FALSE)
+		ft_printf("+");
+	if (is_first == E_FALSE)
+		ft_printf(" ");
+	if (is_first == E_TRUE)
+		is_first = E_FALSE;
+	return ;
+}
+
+static void	print_reduced_form(t_term *term_array)
+{
+	size_t		i;
+	t_term		*term;
+	size_t		print_cnt;
+
+	print_cnt = 0;
+	i = -1;
+	ft_printf("Reduced form: ");
+	while (++i <= POLYNOMIAL_MAX_DEGREE)
+	{
+		term = &term_array[i];
+		if (fabs(term->coefficient) > COEFFICIENT_ACCURACY)
+		{
+			print_plus_minus_sign(term->coefficient);
+			ft_printf("%0.1f * X^%d", term->degree, fabs(term->coefficient),
+				term->degree);
+			print_cnt++;
+		}
+	}
+	if (!print_cnt)
+		ft_printf("0");
+	ft_printf(" = 0\n");
+	return ;
 }
 
 static void	solve_zero_two(const double a, const double c)
 {
 	double		result1;
 
-	if ((a / c) < 0)
+	if ((c / a) < 0)
 		ft_printf("No solution!\n");
 	else
 	{
-		result1 = sqrt(a / c);
+		result1 = sqrt(c / a);
 		ft_printf("Result1: %f\n", result1);
 		ft_printf("Result1: -%f\n", result1);
 	}
@@ -40,37 +72,22 @@ static void	solve_zero_two(const double a, const double c)
 
 void	polynomial_solve(t_polynomial *polynomial)
 {
-	double		a;
-	double		b;
 	double		c;
-	double		result1;
-	double		result2;
-	size_t		valid_flags;
+	double		b;
+	double		a;
 
-	a	=	polynomial->term_array[0].coefficient;
-	b	=	polynomial->term_array[1].coefficient;
-	c	=	polynomial->term_array[2].coefficient;
-	valid_flags = set_valid_flags(polynomial);
-	if (valid_flags == 5)
+	print_reduced_form(polynomial->term_array);
+	a = polynomial->term_array[2].coefficient;
+	b = polynomial->term_array[1].coefficient;
+	c = polynomial->term_array[0].coefficient;
+	if (polynomial->valid_terms == 5)
 		solve_zero_two(-a, c);
-	else if (fabs(a) < COEFFICIENT_ACCURACY && fabs(b) < COEFFICIENT_ACCURACY
-		&& fabs(c) < COEFFICIENT_ACCURACY)
+	else if (!polynomial->valid_terms)
 		ft_printf("All real numbers are valid solutions!\n");
-	else if (valid_flags == 7)
-	{
-		if (pow(b, 2) - 4 * c * a < 0)
-			FT_LOG_FATAL("No solution for complex values");
-		result1 = (-b - sqrt(pow(b, 2) - 4 * c * a)) / (2 * c);
-		result2 = (-b + sqrt(pow(b, 2) - 4 * c * a)) / (2 * c);
-		ft_printf("Result1: %f\n", result1);
-		if (result1 != result2)
-			ft_printf("Result2: %f\n", result2);
-	}
-	else if (valid_flags == 3)
-	{
-		result1 = -a / b;
-		ft_printf("Result1: %f\n", result1);
-	}
+	else if (polynomial->valid_terms == 7)
+		polynomial_quadratic_solve(a, b, c);
+	else if (polynomial->valid_terms == 3)
+		polynomial_linear_solve(b, c);
 	else
 		ft_printf("Don't know how to calculate!\n");
 	return ;

@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/22 09:21:08 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/23 11:50:03 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/23 18:15:06 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,9 @@ void	term_parse(const char *const start_ptr, const char *const end_ptr,
 			POLYNOMIAL_MAX_DEGREE);
 	term_array[degree].coefficient += coefficient;
 	term_array[degree].degree = degree;
+	term_array[degree].is_valid = E_FALSE;
 	if (fabs(term_array[degree].coefficient) > COEFFICIENT_ACCURACY)
 		term_array[degree].is_valid = E_TRUE;
-	else
-		term_array[degree].is_valid = E_FALSE;
 	FT_LOG_INFO("%-70s%-50s %10.2f %10u", start_ptr, ptr, coefficient, degree);
 	return ;
 }

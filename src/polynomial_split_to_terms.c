@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/20 17:08:56 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/23 10:43:08 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/23 18:13:34 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,47 +58,16 @@ static const char	*get_start_pos_of_next_term(const char *const ptr)
 	return (next_ptr);
 }
 
-static void	print_plus_minus_sign(const double coefficient)
+static size_t	set_valid_flags(t_term *term_array)
 {
-	static t_bool	is_first = E_TRUE;
-
-	if (is_first == E_FALSE)
-		ft_printf(" ");
-	if (coefficient < 0)
-		ft_printf("-");
-	else if (coefficient >= 0 && is_first == E_FALSE)
-		ft_printf("+");
-	if (is_first == E_FALSE)
-		ft_printf(" ");
-	if (is_first == E_TRUE)
-		is_first = E_FALSE;
-	return ;
-}
-
-static void	print_reduced_form(t_term *term_array)
-{
+	size_t		valid_flags;
 	size_t		i;
-	t_term		*term;
-	size_t		print_cnt;
 
-	print_cnt = 0;
+	valid_flags = 0;
 	i = -1;
-	ft_printf("Reduced form: ");
 	while (++i <= POLYNOMIAL_MAX_DEGREE)
-	{
-		term = &term_array[i];
-		if (fabs(term->coefficient) > COEFFICIENT_ACCURACY)
-		{
-			print_plus_minus_sign(term->coefficient);
-			ft_printf("%0.1f * X^%d", term->degree, fabs(term->coefficient),
-				term->degree);
-			print_cnt++;
-		}
-	}
-	if (!print_cnt)
-		ft_printf("0");
-	ft_printf(" = 0\n");
-	return ;
+		valid_flags |= term_array[i].is_valid << i;
+	return (valid_flags);
 }
 
 t_polynomial	*polynomial_split_to_terms(const char *const polynomial_string)
@@ -120,6 +89,6 @@ t_polynomial	*polynomial_split_to_terms(const char *const polynomial_string)
 		term_parse(ptr, end_ptr, polynomial->term_array);
 		ptr = (char *)next_ptr;
 	}
-	print_reduced_form(polynomial->term_array);
+	polynomial->valid_terms = set_valid_flags(polynomial->term_array);
 	return (polynomial);
 }

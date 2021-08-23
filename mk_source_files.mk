@@ -6,12 +6,13 @@
 #    By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/09 12:38:32 by jkauppi           #+#    #+#              #
-#    Updated: 2021/08/23 10:18:10 by jkauppi          ###   ########.fr        #
+#    Updated: 2021/08/23 18:06:08 by jkauppi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRC_C_FILES		=	cmd_args.c usage_print.c polynomial_split_to_terms.c \
-					term.c polynomial_solve.c
+					term.c polynomial_solve.c polynomial_linear_solve.c \
+					polynomial_quadratic_solve.c
 SRC_H_FILES		=	computor.h
 LOCAL_LIBS		=	libft_addons.a libftprintf.a libft.a
 GLOBAL_LIBS		=	

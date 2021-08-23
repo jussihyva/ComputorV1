@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/20 10:51:23 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/23 11:13:59 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/23 18:09:41 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,20 @@ typedef struct s_term
 
 typedef struct s_polynomial
 {
-	t_term	*term_array;
+	t_term		*term_array;
+	size_t		valid_terms;
 }				t_polynomial;
 
 void			*cmd_args_init(t_argc_argv *argc_argv);
-void			cmd_arg_save(void *input_params, char opt, t_argc_argv *argc_argv,
-					t_cmd_param_type cmd_param_type);
+void			cmd_arg_save(void *input_params, char opt,
+					t_argc_argv *argc_argv, t_cmd_param_type cmd_param_type);
 void			usage_print(void);
 t_polynomial	*polynomial_split_to_terms(const char *const polynomial_string);
-void			term_parse(const char *const start_ptr, const char *const end_ptr,
-					t_term *term);
+void			term_parse(const char *const start_ptr,
+					const char *const end_ptr, t_term *term);
 void			polynomial_solve(t_polynomial *polynomial);
+void			polynomial_linear_solve(const double b, const double c);
+void			polynomial_quadratic_solve(const double a, const double b,
+					const double c);
 
 #endif
