@@ -6,19 +6,22 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 18:06:23 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/23 18:25:03 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/23 20:21:13 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "computor.h"
 
 static void	solve_negative_discriminant(const double a, const double b,
-											const double c, double discriminant)
+																const double c)
 {
-	(void)a;
-	(void)b;
-	(void)c;
-	(void)discriminant;
+	double		imaginary;
+	double		real;
+
+	imaginary = sqrt(fabs((-c / a) * 4 + pow(b / a, 2))) / 2;
+	real = -b / a / 2;
+	ft_printf("%+0.2f + %0.2fi\n", real, imaginary);
+	ft_printf("%+0.2f - %0.2fi\n", real, imaginary);
 	return ;
 }
 
@@ -30,8 +33,8 @@ static void	solve_positive_discriminant(const double a, const double b,
 
 	result1 = (-b - sqrt(discriminant)) / (2 * a);
 	result2 = (-b + sqrt(discriminant)) / (2 * a);
-	ft_printf("Result1: %f\n", result1);
-	ft_printf("Result2: %f\n", result2);
+	ft_printf("Result1: %+0.2f\n", result1);
+	ft_printf("Result2: %+0.2f\n", result2);
 	return ;
 }
 
@@ -41,7 +44,7 @@ static void	solve_zero_discriminant(const double a, const double b,
 	double		result1;
 
 	result1 = (-b - sqrt(discriminant)) / (2 * a);
-	ft_printf("Result1: %f\n", result1);
+	ft_printf("Result1: %+0.2f\n", result1);
 	return ;
 }
 
@@ -52,7 +55,7 @@ void	polynomial_quadratic_solve(const double a, const double b,
 
 	discriminant = pow(b, 2) - (4 * a * c);
 	if (discriminant < 0)
-		solve_negative_discriminant(a, b, c, discriminant);
+		solve_negative_discriminant(a, b, c);
 	else if (discriminant > 0)
 		solve_positive_discriminant(a, b, discriminant);
 	else
