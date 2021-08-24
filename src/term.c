@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/22 09:21:08 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/24 00:00:34 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/24 17:08:00 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,18 @@ static void	print_error(const char *const string1, const char *const string2)
 }
 
 static double	get_coefficient(const char **ptr,
-											t_side_of_equation side_of_equation)
+						t_side_of_equation side_of_equation, t_bool first_term)
 {
 	double		coefficient;
 	char		*endptr;
 	const char	*start_ptr;
 
 	start_ptr = *ptr;
-	if (**ptr == '+' || **ptr == '-' || **ptr == '=')
+	if (first_term == E_FALSE && (**ptr == '+' || **ptr == '-' || **ptr == '='))
 		(*ptr)++;
 	coefficient = strtod(*ptr, &endptr);
-	if (side_of_equation == E_RIGHT ^ *start_ptr == '-')
+	if (first_term == E_FALSE
+		&& (side_of_equation == E_RIGHT ^ *start_ptr == '-'))
 		coefficient *= -1;
 	while (*endptr == ' ')
 		endptr++;
@@ -56,7 +57,7 @@ static size_t	get_degree(const char **ptr, const char *const end_ptr)
 }
 
 void	term_parse(const char *const start_ptr, const char *const end_ptr,
-															t_term *term_array)
+										t_term *term_array, t_bool first_term)
 {
 	static t_side_of_equation	side_of_equation = E_LEFT;
 	double						coefficient;
@@ -66,7 +67,7 @@ void	term_parse(const char *const start_ptr, const char *const end_ptr,
 	ptr = (char *)start_ptr;
 	if (side_of_equation == E_LEFT && *ptr == '=')
 		side_of_equation = E_RIGHT;
-	coefficient = get_coefficient(&ptr, side_of_equation);
+	coefficient = get_coefficient(&ptr, side_of_equation, first_term);
 	while (*ptr == ' ')
 		ptr++;
 	if (!ft_strnequ(ptr, "X^", 2))

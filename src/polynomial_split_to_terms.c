@@ -6,18 +6,22 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/20 17:08:56 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/23 18:13:34 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/24 17:18:41 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "computor.h"
 
-static const char	*get_next_ptr(const char *const ptr)
+static const char	*get_next_ptr(const char *ptr)
 {
 	const char			*ptr_plus;
 	const char			*ptr_minus;
 	const char			*next_ptr;
 
+	while (*ptr == ' ')
+		ptr++;
+	if (*ptr == '-')
+		ptr++;
 	ptr_minus = ft_strchr(ptr, '-');
 	ptr_plus = ft_strchr(ptr, '+');
 	if (ptr_plus && ptr_minus)
@@ -76,7 +80,9 @@ t_polynomial	*polynomial_split_to_terms(const char *const polynomial_string)
 	const char			*ptr;
 	const char			*next_ptr;
 	const char			*end_ptr;
+	t_bool				first_term;
 
+	first_term = E_TRUE;
 	polynomial = ft_memalloc(sizeof(*polynomial));
 	polynomial->term_array = ft_memalloc(sizeof(*polynomial->term_array) * 3);
 	ptr = polynomial_string;
@@ -86,8 +92,9 @@ t_polynomial	*polynomial_split_to_terms(const char *const polynomial_string)
 		end_ptr = NULL;
 		if (next_ptr)
 			end_ptr = next_ptr - 1;
-		term_parse(ptr, end_ptr, polynomial->term_array);
+		term_parse(ptr, end_ptr, polynomial->term_array, first_term);
 		ptr = (char *)next_ptr;
+		first_term = E_FALSE;
 	}
 	polynomial->valid_terms = set_valid_flags(polynomial->term_array);
 	return (polynomial);

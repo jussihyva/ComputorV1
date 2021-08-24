@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/20 10:51:23 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/23 18:09:41 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/24 16:57:16 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void			cmd_arg_save(void *input_params, char opt,
 void			usage_print(void);
 t_polynomial	*polynomial_split_to_terms(const char *const polynomial_string);
 void			term_parse(const char *const start_ptr,
-					const char *const end_ptr, t_term *term);
+					const char *const end_ptr, t_term *term, t_bool first_term);
 void			polynomial_solve(t_polynomial *polynomial);
 void			polynomial_linear_solve(const double b, const double c);
 void			polynomial_quadratic_solve(const double a, const double b,
