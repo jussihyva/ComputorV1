@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/22 09:21:08 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/24 17:08:00 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/24 19:02:56 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,32 @@ static double	get_coefficient(const char **ptr,
 	if (first_term == E_FALSE && (**ptr == '+' || **ptr == '-' || **ptr == '='))
 		(*ptr)++;
 	coefficient = strtod(*ptr, &endptr);
-	if (first_term == E_FALSE
+	if (*ptr == endptr)
+		coefficient = 1;
+	else if (first_term == E_FALSE
 		&& (side_of_equation == E_RIGHT ^ *start_ptr == '-'))
 		coefficient *= -1;
 	while (*endptr == ' ')
 		endptr++;
-	if (*endptr != '*')
-		print_error("Format of a term is not valid: %s", *ptr);
-	*ptr = endptr + 1;
+	*ptr = endptr;
 	return (coefficient);
+}
+
+static t_bool	is_star_char(const char **ptr)
+{
+	t_bool	is_star_char;
+
+	is_star_char = E_FALSE;
+	while (**ptr == ' ')
+		(*ptr)++;
+	if (**ptr == '*')
+	{
+		is_star_char = E_TRUE;
+		(*ptr)++;
+	}
+	while (**ptr == ' ')
+		(*ptr)++;
+	return (is_star_char);
 }
 
 static size_t	get_degree(const char **ptr, const char *const end_ptr)
@@ -47,12 +64,28 @@ static size_t	get_degree(const char **ptr, const char *const end_ptr)
 	size_t		degree;
 	char		*endptr;
 
-	degree = ft_strtoi(*ptr, &endptr, 10);
-	while (*endptr == ' ')
-		endptr++;
-	if ((*endptr && endptr != (end_ptr + 1)) || *ptr == endptr)
+	degree = 0;
+	while (**ptr == ' ' && *ptr < end_ptr)
+		(*ptr)++;
+	if (!is_star_char(ptr))
+		degree = 0;
+	else if (ft_strnequ(*ptr, "X^", 2))
+	{
+		*ptr += 2;
+		degree = ft_strtoi(*ptr, &endptr, 10);
+		while (*endptr == ' ')
+			endptr++;
+		if ((*endptr && endptr != (end_ptr + 1)) || *ptr == endptr)
+			print_error("Format of a term is not valid: %s", *ptr);
+		*ptr = endptr;
+	}
+	else if (ft_strnequ(*ptr, "X", 1))
+	{
+		*ptr += 1;
+		degree = 1;
+	}
+	else
 		print_error("Format of a term is not valid: %s", *ptr);
-	*ptr = endptr;
 	return (degree);
 }
 
@@ -68,11 +101,6 @@ void	term_parse(const char *const start_ptr, const char *const end_ptr,
 	if (side_of_equation == E_LEFT && *ptr == '=')
 		side_of_equation = E_RIGHT;
 	coefficient = get_coefficient(&ptr, side_of_equation, first_term);
-	while (*ptr == ' ')
-		ptr++;
-	if (!ft_strnequ(ptr, "X^", 2))
-		print_error("Format of a term is not valid: %s", ptr);
-	ptr += 2;
 	degree = get_degree(&ptr, end_ptr);
 	if (degree > POLYNOMIAL_MAX_DEGREE)
 		print_error("Highest supported polynomial degree is %d",
