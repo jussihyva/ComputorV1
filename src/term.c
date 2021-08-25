@@ -6,13 +6,13 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/22 09:21:08 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/24 19:02:56 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/25 10:50:13 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "computor.h"
 
-static void	print_error(const char *const string1, const char *const string2)
+void	print_error(const char *const string1, const char *const string2)
 {
 	ft_printf(string1, string2);
 	ft_printf("\n");
@@ -96,10 +96,12 @@ void	term_parse(const char *const start_ptr, const char *const end_ptr,
 	double						coefficient;
 	size_t						degree;
 	const char					*ptr;
+	t_token						token;
 
 	ptr = (char *)start_ptr;
 	if (side_of_equation == E_LEFT && *ptr == '=')
 		side_of_equation = E_RIGHT;
+	lexical_analyzer_get_next_token(&ptr, &token);
 	coefficient = get_coefficient(&ptr, side_of_equation, first_term);
 	degree = get_degree(&ptr, end_ptr);
 	if (degree > POLYNOMIAL_MAX_DEGREE)

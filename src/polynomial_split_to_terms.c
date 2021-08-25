@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/20 17:08:56 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/24 17:18:41 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/25 10:10:14 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,27 @@ static size_t	set_valid_flags(t_term *term_array)
 	return (valid_flags);
 }
 
+static const char	*precheck_polynomial_string(
+											const char *const polynomial_string)
+{
+	char			*polynomial_string_no_spaces;
+	const char		*ptr;
+	size_t			i;
+
+	polynomial_string_no_spaces
+		= ft_memalloc(sizeof(*polynomial_string_no_spaces)
+			* (ft_strlen(polynomial_string) + 1));
+	i = 0;
+	ptr = (const char *)polynomial_string;
+	while (*ptr)
+	{
+		if (*ptr != ' ')
+			polynomial_string_no_spaces[i++] = *ptr;
+		ptr++;
+	}
+	return (polynomial_string_no_spaces);
+}
+
 t_polynomial	*polynomial_split_to_terms(const char *const polynomial_string)
 {
 	t_polynomial		*polynomial;
@@ -85,7 +106,9 @@ t_polynomial	*polynomial_split_to_terms(const char *const polynomial_string)
 	first_term = E_TRUE;
 	polynomial = ft_memalloc(sizeof(*polynomial));
 	polynomial->term_array = ft_memalloc(sizeof(*polynomial->term_array) * 3);
-	ptr = polynomial_string;
+	polynomial->polynomial_string_no_spaces
+		= precheck_polynomial_string(polynomial_string);
+	ptr = polynomial->polynomial_string_no_spaces;
 	while (ptr)
 	{
 		next_ptr = get_start_pos_of_next_term(ptr);

@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/20 10:51:23 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/24 16:57:16 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/25 10:55:59 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,15 @@ typedef enum e_side_of_equation
 	E_RIGHT
 }				t_side_of_equation;
 
+typedef enum e_token_type
+{
+	E_TOKEN_UNKNOWN,
+	E_DOUBLE,
+	E_MULTIPLY,
+	E_X,
+	E_EXPONENT
+}				t_token_type;
+
 typedef struct s_input_params
 {
 	t_argc_argv			*argc_argv;
@@ -43,9 +52,16 @@ typedef struct s_term
 
 typedef struct s_polynomial
 {
+	const char	*polynomial_string_no_spaces;
 	t_term		*term_array;
 	size_t		valid_terms;
 }				t_polynomial;
+
+typedef struct s_token
+{
+	t_token_type	token;
+	double			value;
+}				t_token;
 
 void			*cmd_args_init(t_argc_argv *argc_argv);
 void			cmd_arg_save(void *input_params, char opt,
@@ -58,5 +74,9 @@ void			polynomial_solve(t_polynomial *polynomial);
 void			polynomial_linear_solve(const double b, const double c);
 void			polynomial_quadratic_solve(const double a, const double b,
 					const double c);
+void			lexical_analyzer_get_next_token(const char **ptr,
+					t_token *token);
+void			print_error(const char *const string1,
+					const char *const string2);
 
 #endif
