@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/22 09:21:08 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/25 14:11:35 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/25 17:52:58 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ void	print_error(const char *const string1, const char *const string2)
 	return ;
 }
 
-static double	get_coefficient(const char **ptr)
+static double	get_coefficient(const char **ptr, const char *const end_ptr)
 {
 	double			coefficient;
 	t_token			token;
 
 	coefficient = 0;
-	lexical_analyzer_get_next_token(ptr, &token);
+	lexical_analyzer_get_next_token(ptr, &token, end_ptr);
 	if (token.token == E_DOUBLE)
 		coefficient = token.value;
 	else if (token.token == E_X)
@@ -42,27 +42,27 @@ static size_t	get_degree(const char **ptr, const char *const end_ptr)
 	size_t			degree;
 	t_token			token;
 
-	if (*ptr == end_ptr + 1 || !end_ptr)
+	if (*ptr == end_ptr + 1)
 		degree = 0;
 	else
 	{
 		degree = 0;
-		lexical_analyzer_get_next_token(ptr, &token);
+		lexical_analyzer_get_next_token(ptr, &token, end_ptr);
 		if (token.token == E_STAR)
-			lexical_analyzer_get_next_token(ptr, &token);
+			lexical_analyzer_get_next_token(ptr, &token, end_ptr);
 		if (token.token != E_X)
 			print_error("Format of a term is not valid: %s", *ptr);
-		lexical_analyzer_get_next_token(ptr, &token);
+		lexical_analyzer_get_next_token(ptr, &token, end_ptr);
 		if (token.token == E_EXPONENT)
 		{
-			lexical_analyzer_get_next_token(ptr, &token);
+			lexical_analyzer_get_next_token(ptr, &token, end_ptr);
 			if (token.token == E_DOUBLE)
 				degree = token.value;
 			else
 				print_error("Format of a term is not valid: %s", *ptr);
 		}
 		else if (token.token == E_EOF)
-			degree = 0;
+			degree = 1;
 		else
 			print_error("Format of a term is not valid: %s", *ptr);
 	}
@@ -82,7 +82,7 @@ void	term_parse(const char *const start_ptr, const char *const end_ptr,
 		side_of_equation = E_RIGHT;
 	if (first_term == E_FALSE && (*ptr == '+' || *ptr == '-' || *ptr == '='))
 		ptr++;
-	coefficient = get_coefficient(&ptr);
+	coefficient = get_coefficient(&ptr, end_ptr);
 	if (first_term == E_FALSE
 		&& (side_of_equation == E_RIGHT ^ *start_ptr == '-'))
 		coefficient *= -1;

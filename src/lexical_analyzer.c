@@ -6,21 +6,25 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 10:25:37 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/25 13:51:28 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/25 17:53:39 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "computor.h"
 
-void	lexical_analyzer_get_next_token(const char **ptr, t_token *token)
+void	lexical_analyzer_get_next_token(const char **ptr, t_token *token,
+													const char *const end_ptr)
 {
 	const char	*endptr;
 
-	if (ft_strchr("+-0123456789", **ptr))
+	if (*ptr == end_ptr + 1)
+		token->token = E_EOF;
+	else if (ft_strchr("+-0123456789", **ptr))
 	{
 		token->token = E_DOUBLE;
+		errno = 0;
 		token->value = strtod(*ptr, (char **)&endptr);
-		if (*ptr == endptr)
+		if (*ptr == endptr || errno || token->value > INT_MAX)
 			print_error("Format of a term is not valid: %s", *ptr);
 		*ptr = endptr;
 	}

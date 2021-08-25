@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 18:06:23 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/23 23:05:42 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/25 17:39:05 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,5 @@ void	polynomial_quadratic_solve(const double a, const double b,
 		solve_positive_discriminant(a, b, discriminant);
 	else
 		solve_zero_discriminant(a, b, discriminant);
+	return ;
 }

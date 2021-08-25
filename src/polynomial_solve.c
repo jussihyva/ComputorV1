@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 10:18:32 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/23 23:06:42 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/25 17:08:16 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ void	polynomial_solve(t_polynomial *polynomial)
 	else if (polynomial->valid_terms == 7
 		|| polynomial->valid_terms == 5)
 		polynomial_quadratic_solve(a, b, c);
-	else if (polynomial->valid_terms == 3)
+	else if (polynomial->valid_terms == 3
+		|| polynomial->valid_terms == 2)
 		polynomial_linear_solve(b, c);
 	else
 		ft_printf("%s %s\n", "Don't know how to calculate!",

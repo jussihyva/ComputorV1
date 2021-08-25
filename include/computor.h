@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/20 10:51:23 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/25 13:55:04 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/25 16:26:56 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void			polynomial_linear_solve(const double b, const double c);
 void			polynomial_quadratic_solve(const double a, const double b,
 					const double c);
 void			lexical_analyzer_get_next_token(const char **ptr,
-					t_token *token);
+					t_token *token, const char *const end_ptr);
 void			print_error(const char *const string1,
 					const char *const string2);
 

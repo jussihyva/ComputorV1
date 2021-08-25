@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/20 17:08:56 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/25 10:10:14 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/25 17:49:27 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,12 @@ static const char	*get_next_ptr(const char *ptr)
 	else if (ptr_minus)
 		next_ptr = ptr_minus;
 	else
-		next_ptr = NULL;
+		next_ptr = ft_strchr(ptr, '\0');
 	return (next_ptr);
 }
 
-static const char	*get_start_pos_of_next_term(const char *const ptr)
+static const char	*get_start_pos_of_next_term(const char *const ptr,
+															t_bool first_term)
 {
 	static const char	*equal_to_ptr;
 	const char			*next_ptr;
@@ -48,7 +49,10 @@ static const char	*get_start_pos_of_next_term(const char *const ptr)
 
 	if (!equal_to_ptr)
 		equal_to_ptr = ft_strchr(ptr + 1, '=');
-	next_ptr = get_next_ptr(ptr + 1);
+	if (first_term == E_TRUE)
+		next_ptr = get_next_ptr(ptr);
+	else
+		next_ptr = get_next_ptr(ptr + 1);
 	side_of_equation = E_LEFT;
 	if (!next_ptr || equal_to_ptr < next_ptr)
 		side_of_equation = E_RIGHT;
@@ -109,9 +113,9 @@ t_polynomial	*polynomial_split_to_terms(const char *const polynomial_string)
 	polynomial->polynomial_string_no_spaces
 		= precheck_polynomial_string(polynomial_string);
 	ptr = polynomial->polynomial_string_no_spaces;
-	while (ptr)
+	while (*ptr)
 	{
-		next_ptr = get_start_pos_of_next_term(ptr);
+		next_ptr = get_start_pos_of_next_term(ptr, first_term);
 		end_ptr = NULL;
 		if (next_ptr)
 			end_ptr = next_ptr - 1;

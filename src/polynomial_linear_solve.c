@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 18:03:24 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/23 22:53:00 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/25 17:55:50 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,4 +19,5 @@ void	polynomial_linear_solve(const double b, const double c)
 	ft_printf("Linear polynomial.\n");
 	result1 = -c / b;
 	ft_printf("%f\n", result1);
+	return ;
 }
