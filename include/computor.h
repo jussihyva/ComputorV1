@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/20 10:51:23 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/25 12:14:45 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/25 13:55:04 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ typedef enum e_side_of_equation
 
 typedef enum e_token_type
 {
-	E_TOKEN_UNKNOWN,
 	E_DOUBLE,
 	E_STAR,
 	E_X,
-	E_EXPONENT
+	E_EXPONENT,
+	E_EOF
 }				t_token_type;
 
 typedef struct s_input_params

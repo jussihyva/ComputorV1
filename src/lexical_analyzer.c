@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 10:25:37 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/25 12:26:15 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/25 13:51:28 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,17 @@ void	lexical_analyzer_get_next_token(const char **ptr, t_token *token)
 			print_error("Format of a term is not valid: %s", *ptr);
 		*ptr = endptr;
 	}
-	else if (**ptr == 'X')
-		token->token = E_X;
-	else if (**ptr == '*')
-		token->token = E_STAR;
-	else if (**ptr == '^')
-		token->token = E_EXPONENT;
 	else
-		print_error("Format of a term is not valid: %s", *ptr);
+	{
+		if (**ptr == 'X')
+			token->token = E_X;
+		else if (**ptr == '*')
+			token->token = E_STAR;
+		else if (**ptr == '^')
+			token->token = E_EXPONENT;
+		else
+			print_error("Format of a term is not valid: %s", *ptr);
+		(*ptr)++;
+	}
 	return ;
 }

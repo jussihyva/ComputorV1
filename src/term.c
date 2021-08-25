@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/22 09:21:08 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/25 12:24:33 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/25 14:11:35 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ static double	get_coefficient(const char **ptr)
 	if (token.token == E_DOUBLE)
 		coefficient = token.value;
 	else if (token.token == E_X)
+	{
 		coefficient = 1;
+		(*ptr)--;
+	}
 	return (coefficient);
 }
 
@@ -39,26 +42,30 @@ static size_t	get_degree(const char **ptr, const char *const end_ptr)
 	size_t			degree;
 	t_token			token;
 
-	(void)end_ptr;
-	degree = 0;
-	lexical_analyzer_get_next_token(ptr, &token);
-	if (token.token == E_STAR)
-	{
-		(*ptr)++;
-		lexical_analyzer_get_next_token(ptr, &token);
-	}
-	if (token.token != E_X)
-		print_error("Format of a term is not valid: %s", *ptr);
-	(*ptr)++;
-	lexical_analyzer_get_next_token(ptr, &token);
-	if (token.token != E_EXPONENT)
-		print_error("Format of a term is not valid: %s", *ptr);
-	(*ptr)++;
-	lexical_analyzer_get_next_token(ptr, &token);
-	if (token.token == E_DOUBLE)
-		degree = token.value;
+	if (*ptr == end_ptr + 1 || !end_ptr)
+		degree = 0;
 	else
-		print_error("Format of a term is not valid: %s", *ptr);
+	{
+		degree = 0;
+		lexical_analyzer_get_next_token(ptr, &token);
+		if (token.token == E_STAR)
+			lexical_analyzer_get_next_token(ptr, &token);
+		if (token.token != E_X)
+			print_error("Format of a term is not valid: %s", *ptr);
+		lexical_analyzer_get_next_token(ptr, &token);
+		if (token.token == E_EXPONENT)
+		{
+			lexical_analyzer_get_next_token(ptr, &token);
+			if (token.token == E_DOUBLE)
+				degree = token.value;
+			else
+				print_error("Format of a term is not valid: %s", *ptr);
+		}
+		else if (token.token == E_EOF)
+			degree = 0;
+		else
+			print_error("Format of a term is not valid: %s", *ptr);
+	}
 	return (degree);
 }
 

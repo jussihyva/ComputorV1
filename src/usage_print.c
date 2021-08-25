@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/20 12:58:34 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/20 12:59:56 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/25 13:47:15 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	examples_print(void)
 void	usage_print(void)
 {
 	ft_printf("Usage:\n");
-	ft_printf("  ./ft_linear_regression\n");
+	ft_printf("  ./computor\n");
 	examples_print();
 	ft_printf("\n\nMandatory parameter:\n");
 	ft_printf("  None\n");
