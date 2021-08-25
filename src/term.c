@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/22 09:21:08 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/25 17:52:58 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/25 18:13:21 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,20 @@ static size_t	get_degree(const char **ptr, const char *const end_ptr)
 	return (degree);
 }
 
+void	term_update(const t_term *const term, t_term *const term_array)
+{
+	term_array[term->degree].coefficient += term->coefficient;
+	term_array[term->degree].degree = term->degree;
+	term_array[term->degree].is_valid = E_FALSE;
+	if (fabs(term_array[term->degree].coefficient) > COEFFICIENT_ACCURACY)
+		term_array[term->degree].is_valid = E_TRUE;
+	return ;
+}
+
 void	term_parse(const char *const start_ptr, const char *const end_ptr,
-										t_term *term_array, t_bool first_term)
+										t_term *term, t_bool first_term)
 {
 	static t_side_of_equation	side_of_equation = E_LEFT;
-	double						coefficient;
-	size_t						degree;
 	const char					*ptr;
 
 	ptr = (char *)start_ptr;
@@ -82,19 +90,13 @@ void	term_parse(const char *const start_ptr, const char *const end_ptr,
 		side_of_equation = E_RIGHT;
 	if (first_term == E_FALSE && (*ptr == '+' || *ptr == '-' || *ptr == '='))
 		ptr++;
-	coefficient = get_coefficient(&ptr, end_ptr);
+	term->coefficient = get_coefficient(&ptr, end_ptr);
 	if (first_term == E_FALSE
 		&& (side_of_equation == E_RIGHT ^ *start_ptr == '-'))
-		coefficient *= -1;
-	degree = get_degree(&ptr, end_ptr);
-	if (degree > POLYNOMIAL_MAX_DEGREE)
+		term->coefficient *= -1;
+	term->degree = get_degree(&ptr, end_ptr);
+	if (term->degree > POLYNOMIAL_MAX_DEGREE)
 		print_error("Highest supported polynomial degree is %d",
 			ft_itoa(POLYNOMIAL_MAX_DEGREE));
-	term_array[degree].coefficient += coefficient;
-	term_array[degree].degree = degree;
-	term_array[degree].is_valid = E_FALSE;
-	if (fabs(term_array[degree].coefficient) > COEFFICIENT_ACCURACY)
-		term_array[degree].is_valid = E_TRUE;
-	ft_printf("%-70s%-50s %10.2f %10u\n", start_ptr, ptr, coefficient, degree);
 	return ;
 }

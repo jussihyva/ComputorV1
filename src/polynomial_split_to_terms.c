@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/20 17:08:56 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/25 17:49:27 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/25 18:14:13 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,8 @@ t_polynomial	*polynomial_split_to_terms(const char *const polynomial_string)
 	t_polynomial		*polynomial;
 	const char			*ptr;
 	const char			*next_ptr;
-	const char			*end_ptr;
 	t_bool				first_term;
+	t_term				term;
 
 	first_term = E_TRUE;
 	polynomial = ft_memalloc(sizeof(*polynomial));
@@ -116,10 +116,10 @@ t_polynomial	*polynomial_split_to_terms(const char *const polynomial_string)
 	while (*ptr)
 	{
 		next_ptr = get_start_pos_of_next_term(ptr, first_term);
-		end_ptr = NULL;
-		if (next_ptr)
-			end_ptr = next_ptr - 1;
-		term_parse(ptr, end_ptr, polynomial->term_array, first_term);
+		term_parse(ptr, next_ptr - 1, &term, first_term);
+		term_update(&term, polynomial->term_array);
+		ft_printf("%-70s%-50s %10.2f %10u\n", ptr, ptr, term.coefficient,
+			term.degree);
 		ptr = (char *)next_ptr;
 		first_term = E_FALSE;
 	}
