@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 18:06:23 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/25 17:39:05 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/26 15:27:24 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	solve_negative_discriminant(const double a, const double b,
 	double		real;
 	size_t		i;
 
-	ft_printf("Quadratic polynomial (negative discriminant).\n");
+	ft_printf("Discriminant is strictly negative, the two solutions are:\n");
 	imaginary = sqrt(fabs((-c / a) * 4 + pow(b / a, 2))) / 2;
 	real = -b / a / 2;
 	i = 0;
@@ -46,7 +46,7 @@ static void	solve_positive_discriminant(const double a, const double b,
 	double		result1;
 	double		result2;
 
-	ft_printf("Quadratic polynomial (positive discriminant).\n");
+	ft_printf("Discriminant is strictly positive, the two solutions are:\n");
 	result1 = (-b - sqrt(discriminant)) / (2 * a);
 	result2 = (-b + sqrt(discriminant)) / (2 * a);
 	ft_printf("%+0.2f\n", result1);
@@ -59,7 +59,7 @@ static void	solve_zero_discriminant(const double a, const double b,
 {
 	double		result1;
 
-	ft_printf("Quadratic polynomial (zero discriminant).\n");
+	ft_printf("Discriminant is zero (double root), the solution is:\n");
 	result1 = (-b - sqrt(discriminant)) / (2 * a);
 	ft_printf("%+0.2f\n", result1);
 	return ;
@@ -70,6 +70,7 @@ void	polynomial_quadratic_solve(const double a, const double b,
 {
 	double		discriminant;
 
+	ft_printf("Polynomial degree: 2\n");
 	discriminant = pow(b, 2) - (4 * a * c);
 	if (discriminant < 0)
 		solve_negative_discriminant(a, b, c);

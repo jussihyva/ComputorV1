@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/22 09:21:08 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/26 13:38:16 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/26 15:13:56 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,11 @@ void	term_parse(const char *const start_ptr, const char *const end_ptr,
 	else
 		term->degree = get_degree(&ptr, end_ptr);
 	if (term->degree > POLYNOMIAL_MAX_DEGREE)
-		print_error("Highest supported polynomial degree is %d",
-			ft_itoa(POLYNOMIAL_MAX_DEGREE));
+	{
+		ft_printf("Polynomial degree: %u\n", term->degree);
+		ft_printf("%s%s\n", "The polynomial degree is stricly greater than 2, ",
+			"I can't solve.");
+		exit(42);
+	}
 	return ;
 }
