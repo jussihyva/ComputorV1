@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/20 12:58:34 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/25 13:47:15 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/26 13:48:41 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,10 @@ static void	examples_print(void)
 {
 	ft_printf("\n\n Examples:\n");
 	ft_printf("\n   1:\n");
-	ft_printf("    ./ft_linear_regression\n");
-	ft_printf("    Type mileage (int) of the car: 10000\n");
-	ft_printf("    Estimated price: $8280\n");
+	ft_printf("    ./computor\n");
+	ft_printf("    1 * X^0 + 2 * X^2 = 5\n");
 	ft_printf("\n   2:\n");
-	ft_printf("    ./ft_linear_regression -f data/data.csv\n");
-	ft_printf("    THETA0:    8493.5558\n");
-	ft_printf("    THETA1:      -0.0214\n");
-	ft_printf("    Precision of theta values (R2): 0.732969\n");
+	ft_printf("    ./computor \"1 * X^0 + 2 * X^2 = 5\"\n");
 	return ;
 }
 
@@ -36,17 +32,6 @@ void	usage_print(void)
 	ft_printf("  None\n");
 	ft_printf("Optional parameter:\n");
 	ft_printf("  -h                            Help printout\n");
-	ft_printf("  -f    <data set file>         %s\n",
-		"Calculates unknown variables (Theta values)");
-	ft_printf("  -F                            %s\n",
-		"Allow calculation of negative inpput values and results");
-	ft_printf("  -A    <learning rate>         %s\n",
-		"Learning rate (alpha) for gradient descent. Default value is 0.1");
-	ft_printf("  -C    <cost limit>            %s%s\n",
-		"Cost limit is a maximum allowed cost change per iteration loop (R2) ",
-		"for gradient descent calculation. Default value is 0.0000001");
-	ft_printf("  -L    <logging level>         %s\n",
-		"Logging details for trouble shoooting. Valid values 0-4");
 	ft_printf("  -l                            %s\n",
 		"Print leaks. Only in MAC-OS");
 	exit(42);
