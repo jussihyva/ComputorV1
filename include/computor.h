@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/20 10:51:23 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/26 12:22:03 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/26 16:25:15 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ typedef struct s_polynomial
 {
 	const char	*polynomial_string_no_spaces;
 	t_term		*term_array;
+	t_list		*term_lst;
+	t_bt_node	*degree_prio_queue;
 }				t_polynomial;
 
 typedef struct s_token
@@ -83,7 +85,9 @@ void			lexical_analyzer_get_next_token(const char **ptr,
 					t_token *token, const char *const end_ptr);
 void			print_error(const char *const string1,
 					const char *const string2);
-void			term_update(const t_term *const term, t_term *const term_array);
+void			term_update(t_term *const term, t_term *const term_array,
+					const t_list **const term_lst,
+					t_bt_node **degree_prio_queue);
 t_polynomial	*polynomial_init(const char *const polynomial_string);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 10:18:32 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/26 09:38:58 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/26 17:07:57 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,20 @@ static void	print_plus_minus_sign(const double coefficient)
 	return ;
 }
 
-static void	print_reduced_form(t_term *term_array)
+static void	print_reduced_form(t_bt_node **degree_prio_queue)
 {
 	size_t		i;
 	t_term		*term;
 	size_t		print_cnt;
+	size_t		degree_of_polynomial;
 
 	print_cnt = 0;
+	degree_of_polynomial = 0;
 	i = -1;
 	ft_printf("Reduced form: ");
-	while (++i <= POLYNOMIAL_MAX_DEGREE)
+	while (*degree_prio_queue)
 	{
-		term = &term_array[i];
+		term = (t_term *)ft_prio_dequeue(degree_prio_queue);
 		if (fabs(term->coefficient) > COEFFICIENT_ACCURACY)
 		{
 			print_plus_minus_sign(term->coefficient);
@@ -48,10 +50,18 @@ static void	print_reduced_form(t_term *term_array)
 				term->degree);
 			print_cnt++;
 		}
+		degree_of_polynomial = ft_max_int(degree_of_polynomial, term->degree);
 	}
 	if (!print_cnt)
 		ft_printf("0");
 	ft_printf(" = 0\n");
+	if (degree_of_polynomial > POLYNOMIAL_MAX_DEGREE)
+	{
+		ft_printf("Polynomial degree: %u\n", degree_of_polynomial);
+		ft_printf("%s%s\n", "The polynomial degree is stricly greater than 2, ",
+			"I can't solve.");
+		exit(42);
+	}
 	return ;
 }
 
@@ -75,7 +85,7 @@ void	polynomial_solve(t_polynomial *polynomial)
 	size_t		valid_terms;
 
 	valid_terms = set_valid_flags(polynomial->term_array);
-	print_reduced_form(polynomial->term_array);
+	print_reduced_form(&polynomial->degree_prio_queue);
 	a = polynomial->term_array[2].coefficient;
 	b = polynomial->term_array[1].coefficient;
 	c = polynomial->term_array[0].coefficient;

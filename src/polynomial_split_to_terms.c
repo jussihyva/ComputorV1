@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/20 17:08:56 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/26 15:06:45 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/26 16:25:37 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,9 @@ t_polynomial	*polynomial_split_to_terms(const char *const polynomial_string)
 	{
 		next_ptr = get_start_pos_of_next_term(ptr);
 		term_parse(ptr, next_ptr - 1, &term);
-		term_update(&term, polynomial->term_array);
+		term_update(&term, polynomial->term_array,
+			(const t_list **)&polynomial->term_lst,
+			&polynomial->degree_prio_queue);
 		if (*next_ptr == '=')
 			side_of_equation = E_RIGHT;
 		term.coefficient = coefficient_init(next_ptr, side_of_equation);
