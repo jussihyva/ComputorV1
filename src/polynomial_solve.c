@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 10:18:32 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/26 22:17:20 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/27 00:23:34 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,10 @@ static void	print_reduced_form(t_bt_node **degree_prio_queue,
 		}
 	}
 	if (degree_of_polynomial == -1)
+	{
+		degree_of_polynomial = 0;
 		ft_printf("0");
+	}
 	ft_printf(" = 0\n");
 	check_degree_of_polynomial(degree_of_polynomial);
 	return ;
