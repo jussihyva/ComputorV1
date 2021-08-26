@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/22 09:21:08 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/26 19:28:34 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/26 22:22:12 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	term_add_to_queue(t_bt_node **degree_prio_queue, t_term *term,
 	new_elem = ft_lstnew(term, sizeof(*term));
 	ft_lstadd(term_lst, new_elem);
 	ft_prio_enqueue(degree_prio_queue,
-		(int *)&((t_term *)new_elem->content)->degree_key, new_elem->content);
+		&((t_term *)new_elem->content)->degree_key, new_elem->content);
 }
 
 void	term_parse(const char *const start_ptr, const char *const end_ptr,

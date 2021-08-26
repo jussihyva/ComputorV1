@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 12:19:47 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/26 13:30:59 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/26 21:56:57 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ t_polynomial	*polynomial_init(const char *const polynomial_string)
 	t_polynomial			*polynomial;
 
 	polynomial = ft_memalloc(sizeof(*polynomial));
-	polynomial->term_array = ft_memalloc(sizeof(*polynomial->term_array) * 3);
 	polynomial->polynomial_string_no_spaces
 		= precheck_polynomial_string(polynomial_string);
 	return (polynomial);

@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 10:18:32 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/26 19:07:26 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/26 22:17:20 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,12 +87,14 @@ void	polynomial_solve(t_polynomial *polynomial)
 	double		b;
 	double		a;
 	size_t		valid_terms;
+	t_term		*term_array;
 
-	print_reduced_form(&polynomial->degree_prio_queue, polynomial->term_array);
-	valid_terms = set_valid_flags(polynomial->term_array);
-	a = polynomial->term_array[2].coefficient;
-	b = polynomial->term_array[1].coefficient;
-	c = polynomial->term_array[0].coefficient;
+	term_array = ft_memalloc(sizeof(*term_array) * 3);
+	print_reduced_form(&polynomial->degree_prio_queue, term_array);
+	valid_terms = set_valid_flags(term_array);
+	a = term_array[2].coefficient;
+	b = term_array[1].coefficient;
+	c = term_array[0].coefficient;
 	if (!valid_terms)
 		ft_printf("All real numbers are valid solutions!\n");
 	else if (valid_terms == 7 || valid_terms == 6
@@ -103,5 +105,6 @@ void	polynomial_solve(t_polynomial *polynomial)
 	else
 		ft_printf("%s %s\n", "Don't know how to calculate!",
 			"Any possible solution? Maybe not.");
+	ft_memdel((void **)&term_array);
 	return ;
 }

@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/20 10:51:23 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/26 19:29:50 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/26 22:12:27 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ typedef struct s_term
 typedef struct s_polynomial
 {
 	const char	*polynomial_string_no_spaces;
-	t_term		*term_array;
 	t_list		*term_lst;
 	t_bt_node	*degree_prio_queue;
 }				t_polynomial;
