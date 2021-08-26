@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/20 17:08:56 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/25 18:14:13 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/26 07:18:39 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,18 +66,6 @@ static const char	*get_start_pos_of_next_term(const char *const ptr,
 	return (next_ptr);
 }
 
-static size_t	set_valid_flags(t_term *term_array)
-{
-	size_t		valid_flags;
-	size_t		i;
-
-	valid_flags = 0;
-	i = -1;
-	while (++i <= POLYNOMIAL_MAX_DEGREE)
-		valid_flags |= term_array[i].is_valid << i;
-	return (valid_flags);
-}
-
 static const char	*precheck_polynomial_string(
 											const char *const polynomial_string)
 {
@@ -123,6 +111,5 @@ t_polynomial	*polynomial_split_to_terms(const char *const polynomial_string)
 		ptr = (char *)next_ptr;
 		first_term = E_FALSE;
 	}
-	polynomial->valid_terms = set_valid_flags(polynomial->term_array);
 	return (polynomial);
 }

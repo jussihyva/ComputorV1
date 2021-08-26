@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/20 10:51:23 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/25 18:14:41 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/26 07:17:04 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ typedef struct s_polynomial
 {
 	const char	*polynomial_string_no_spaces;
 	t_term		*term_array;
-	size_t		valid_terms;
 }				t_polynomial;
 
 typedef struct s_token

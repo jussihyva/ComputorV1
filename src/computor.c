@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 18:19:03 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/23 23:02:58 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/26 07:31:32 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ static void	main_remove(t_arg_parser **arg_parser, t_polynomial **polynomial,
 	t_bool			print_leaks;
 
 	ft_memdel((void **)&(*polynomial)->term_array);
+	ft_strdel((char **)&(*polynomial)->polynomial_string_no_spaces);
 	ft_memdel((void **)polynomial);
 	input_params = (t_input_params *)(*arg_parser)->input_params;
 	ft_strdel((char **)&input_params->polynomial_string);
