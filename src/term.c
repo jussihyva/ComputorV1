@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/22 09:21:08 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/26 17:12:34 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/26 19:28:34 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ static size_t	get_degree(const char **ptr, const char *const end_ptr)
 	{
 		lexical_analyzer_get_next_token(ptr, &token, end_ptr);
 		degree = token.value;
-		if (token.token != E_DOUBLE || token.value - (int)token.value)
+		if (token.token != E_DOUBLE || token.value - (int)token.value
+			|| degree > INT_MAX)
 			print_error("Format of a term is not valid: %s", *ptr);
 	}
 	else if (token.token == E_EOF)
@@ -63,48 +64,19 @@ static size_t	get_degree(const char **ptr, const char *const end_ptr)
 	return (degree);
 }
 
-void	term_update(t_term *const term, t_term *const term_array,
-				const t_list **const term_lst, t_bt_node **degree_prio_queue)
+void	term_add_to_queue(t_bt_node **degree_prio_queue, t_term *term,
+															t_list **term_lst)
 {
-	const t_list		*elem;
 	t_list				*new_elem;
-	t_term				*term_to_update;
 
-	if (term->degree <= POLYNOMIAL_MAX_DEGREE)
-	{
-		term_array[term->degree].coefficient += term->coefficient;
-		term_array[term->degree].degree = term->degree;
-		term_array[term->degree].is_valid = E_FALSE;
-		term->is_valid = E_FALSE;
-		if (fabs(term_array[term->degree].coefficient) > COEFFICIENT_ACCURACY)
-		{
-			term_array[term->degree].is_valid = E_TRUE;
-			term->is_valid = E_TRUE;
-		}
-	}
-	elem = *term_lst;
-	while (elem)
-	{
-		term_to_update = (t_term *)elem->content;
-		if (term_to_update->degree == term->degree)
-			break ;
-		elem = elem->next;
-	}
-	if (elem)
-	{
-		term_to_update->coefficient += term->coefficient;
-		term_to_update->is_valid = E_FALSE;
-		if (fabs(term_to_update->coefficient) > COEFFICIENT_ACCURACY)
-			term_to_update->is_valid = E_TRUE;
-	}
-	else
-	{
-		new_elem = ft_lstnew(term, sizeof(*term));
-		ft_lstadd((t_list **)term_lst, new_elem);
-		ft_prio_enqueue(degree_prio_queue,
-			(int *)&((t_term *)new_elem->content)->degree, new_elem->content);
-	}
-	return ;
+	term->is_valid = E_FALSE;
+	if (fabs(term->coefficient) > COEFFICIENT_ACCURACY)
+		term->is_valid = E_TRUE;
+	term->degree_key = htonl(term->degree);
+	new_elem = ft_lstnew(term, sizeof(*term));
+	ft_lstadd(term_lst, new_elem);
+	ft_prio_enqueue(degree_prio_queue,
+		(int *)&((t_term *)new_elem->content)->degree_key, new_elem->content);
 }
 
 void	term_parse(const char *const start_ptr, const char *const end_ptr,

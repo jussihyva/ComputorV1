@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/20 10:51:23 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/26 16:25:15 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/26 19:29:50 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct s_term
 {
 	double				coefficient;
 	size_t				degree;
+	int					degree_key;
 	t_bool				is_valid;
 }				t_term;
 
@@ -85,9 +86,8 @@ void			lexical_analyzer_get_next_token(const char **ptr,
 					t_token *token, const char *const end_ptr);
 void			print_error(const char *const string1,
 					const char *const string2);
-void			term_update(t_term *const term, t_term *const term_array,
-					const t_list **const term_lst,
-					t_bt_node **degree_prio_queue);
 t_polynomial	*polynomial_init(const char *const polynomial_string);
+void			term_add_to_queue(t_bt_node **degree_prio_queue, t_term *term,
+					t_list **term_lst);
 
 #endif
