@@ -6,11 +6,30 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 10:25:37 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/25 17:53:39 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/26 12:15:28 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "computor.h"
+
+static double	ft_strtod(const char *ptr, const char **endptr)
+{
+	double	value;
+
+	errno = 0;
+	value = strtod(ptr, (char **)endptr);
+	if (errno || value > INT_MAX)
+		print_error("Format of a term is not valid: %s", ptr);
+	if (ptr == *endptr)
+	{
+		if (*ptr == '+')
+			value = 1;
+		else if (*ptr == '-')
+			value = -1;
+		(*endptr)++;
+	}
+	return (value);
+}
 
 void	lexical_analyzer_get_next_token(const char **ptr, t_token *token,
 													const char *const end_ptr)
@@ -22,10 +41,7 @@ void	lexical_analyzer_get_next_token(const char **ptr, t_token *token,
 	else if (ft_strchr("+-0123456789", **ptr))
 	{
 		token->token = E_DOUBLE;
-		errno = 0;
-		token->value = strtod(*ptr, (char **)&endptr);
-		if (*ptr == endptr || errno || token->value > INT_MAX)
-			print_error("Format of a term is not valid: %s", *ptr);
+		token->value = ft_strtod(*ptr, &endptr);
 		*ptr = endptr;
 	}
 	else

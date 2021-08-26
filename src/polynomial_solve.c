@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 10:18:32 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/26 07:27:59 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/26 09:38:58 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,8 @@ void	polynomial_solve(t_polynomial *polynomial)
 	c = polynomial->term_array[0].coefficient;
 	if (!valid_terms)
 		ft_printf("All real numbers are valid solutions!\n");
-	else if (valid_terms == 7 || valid_terms == 5  || valid_terms == 4)
+	else if (valid_terms == 7 || valid_terms == 6
+		|| valid_terms == 5 || valid_terms == 4)
 		polynomial_quadratic_solve(a, b, c);
 	else if (valid_terms == 3 || valid_terms == 2)
 		polynomial_linear_solve(b, c);

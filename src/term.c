@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/22 09:21:08 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/25 18:13:21 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/26 11:58:46 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,20 +80,12 @@ void	term_update(const t_term *const term, t_term *const term_array)
 }
 
 void	term_parse(const char *const start_ptr, const char *const end_ptr,
-										t_term *term, t_bool first_term)
+																t_term *term)
 {
-	static t_side_of_equation	side_of_equation = E_LEFT;
 	const char					*ptr;
 
 	ptr = (char *)start_ptr;
-	if (side_of_equation == E_LEFT && *ptr == '=')
-		side_of_equation = E_RIGHT;
-	if (first_term == E_FALSE && (*ptr == '+' || *ptr == '-' || *ptr == '='))
-		ptr++;
-	term->coefficient = get_coefficient(&ptr, end_ptr);
-	if (first_term == E_FALSE
-		&& (side_of_equation == E_RIGHT ^ *start_ptr == '-'))
-		term->coefficient *= -1;
+	term->coefficient *= get_coefficient(&ptr, end_ptr);
 	term->degree = get_degree(&ptr, end_ptr);
 	if (term->degree > POLYNOMIAL_MAX_DEGREE)
 		print_error("Highest supported polynomial degree is %d",

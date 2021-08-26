@@ -20,5 +20,7 @@
 ./computor "-1X = 0"
 ./computor "-1X^2 = 0"
 ./computor "-1X^2 = 1"
+./computor "X^1 + X^2 = 0"
+./computor "-X^1 + X^2 = 0"
 
 ./computor "1 * X = 20000000000000000000000"
