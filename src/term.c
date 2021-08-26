@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/22 09:21:08 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/26 11:58:46 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/26 13:38:16 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,30 +42,24 @@ static size_t	get_degree(const char **ptr, const char *const end_ptr)
 	size_t			degree;
 	t_token			token;
 
-	if (*ptr == end_ptr + 1)
-		degree = 0;
-	else
+	degree = 0;
+	lexical_analyzer_get_next_token(ptr, &token, end_ptr);
+	if (token.token == E_STAR)
+		lexical_analyzer_get_next_token(ptr, &token, end_ptr);
+	if (token.token != E_X)
+		print_error("Format of a term is not valid: %s", *ptr);
+	lexical_analyzer_get_next_token(ptr, &token, end_ptr);
+	if (token.token == E_EXPONENT)
 	{
-		degree = 0;
 		lexical_analyzer_get_next_token(ptr, &token, end_ptr);
-		if (token.token == E_STAR)
-			lexical_analyzer_get_next_token(ptr, &token, end_ptr);
-		if (token.token != E_X)
-			print_error("Format of a term is not valid: %s", *ptr);
-		lexical_analyzer_get_next_token(ptr, &token, end_ptr);
-		if (token.token == E_EXPONENT)
-		{
-			lexical_analyzer_get_next_token(ptr, &token, end_ptr);
-			if (token.token == E_DOUBLE)
-				degree = token.value;
-			else
-				print_error("Format of a term is not valid: %s", *ptr);
-		}
-		else if (token.token == E_EOF)
-			degree = 1;
-		else
+		degree = token.value;
+		if (token.token != E_DOUBLE)
 			print_error("Format of a term is not valid: %s", *ptr);
 	}
+	else if (token.token == E_EOF)
+		degree = 1;
+	else
+		print_error("Format of a term is not valid: %s", *ptr);
 	return (degree);
 }
 
@@ -86,7 +80,10 @@ void	term_parse(const char *const start_ptr, const char *const end_ptr,
 
 	ptr = (char *)start_ptr;
 	term->coefficient *= get_coefficient(&ptr, end_ptr);
-	term->degree = get_degree(&ptr, end_ptr);
+	if (ptr == end_ptr + 1)
+		term->degree = 0;
+	else
+		term->degree = get_degree(&ptr, end_ptr);
 	if (term->degree > POLYNOMIAL_MAX_DEGREE)
 		print_error("Highest supported polynomial degree is %d",
 			ft_itoa(POLYNOMIAL_MAX_DEGREE));

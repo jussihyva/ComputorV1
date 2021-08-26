@@ -6,60 +6,19 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/20 17:08:56 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/08/26 12:22:55 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/08/26 13:28:46 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "computor.h"
 
-static const char	*get_next_ptr(const char *ptr)
+static const char	*get_start_pos_of_next_term(const char *ptr)
 {
-	const char			*ptr_plus;
-	const char			*ptr_minus;
-	const char			*next_ptr;
-
-	while (*ptr == '+')
+	while (ft_strchr("+-", *ptr))
 		ptr++;
-	if (*ptr == '-')
+	while (*ptr && !ft_strchr("=+-", *ptr))
 		ptr++;
-	ptr_minus = ft_strchr(ptr, '-');
-	ptr_plus = ft_strchr(ptr, '+');
-	if (ptr_plus && ptr_minus)
-	{
-		if (ptr_plus < ptr_minus)
-			next_ptr = ptr_plus;
-		else
-			next_ptr = ptr_minus;
-	}
-	else if (ptr_plus)
-		next_ptr = ptr_plus;
-	else if (ptr_minus)
-		next_ptr = ptr_minus;
-	else
-		next_ptr = ft_strchr(ptr, '\0');
-	return (next_ptr);
-}
-
-static const char	*get_start_pos_of_next_term(const char *const ptr)
-{
-	static const char	*equal_to_ptr;
-	const char			*next_ptr;
-	t_side_of_equation	side_of_equation;
-
-	if (!equal_to_ptr)
-		equal_to_ptr = ft_strchr(ptr + 1, '=');
-	next_ptr = get_next_ptr(ptr);
-	side_of_equation = E_LEFT;
-	if (!next_ptr || equal_to_ptr < next_ptr)
-		side_of_equation = E_RIGHT;
-	if (side_of_equation == E_RIGHT && ptr < equal_to_ptr)
-	{
-		if (!next_ptr && equal_to_ptr)
-			next_ptr = equal_to_ptr;
-		else if (equal_to_ptr < next_ptr)
-			next_ptr = equal_to_ptr;
-	}
-	return (next_ptr);
+	return (ptr);
 }
 
 static double	coefficient_init(const char *next_ptr,
@@ -72,7 +31,7 @@ static double	coefficient_init(const char *next_ptr,
 	else
 		coefficient = -1;
 	if (*next_ptr == '-')
-		coefficient = -1;
+		coefficient *= -1;
 	return (coefficient);
 }
 
